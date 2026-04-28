@@ -17,7 +17,7 @@ const createSQLTables = `
     title TEXT NOT NULL,
     author_id UUID REFERENCES users(user_id) ON DELETE CASCADE,
     content TEXT NOT NULL,
-    created_at TIMETSAMPTZ DEFAULT NOW()
+    created_at TIMESTAMPTZ DEFAULT NOW()
   );
 `;
 
@@ -26,7 +26,7 @@ async function main() {
 
   const client = new Client({
     connectionString: process.env.DB_CONNECTION,
-    ssl: { rejectUnauthorized: false },
+    ssl: { rejectUnauthorized: true },
   });
 
   try {

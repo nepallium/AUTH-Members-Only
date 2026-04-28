@@ -1,20 +1,22 @@
 import bcrypt from "bcrypt";
 import crypto from "node:crypto";
+import pool from "../db/pool.js"
 
 // TODO validate user form
 
 export async function createUser(req, res, next) {
   try {
     const formData = req.body;
-    const salt = crypto.randomBytes(32).toString("hex");
-    const hashedPw = bcrypt.hash(formData.password, salt);
+    const hashedPw = await bcrypt.hash(formData.password, 10);
+    console.log(hashedPw)
     await pool.query(
       `
-      INSERT INTO (email, password, first_name, last_name)
+      INSERT INTO users (email, password, first_name, last_name)
       VALUES ($1, $2, $3, $4)
       `,
-      [formData.username, hashedPw, formData.first_name, formData.last_name],
+      [formData.email, hashedPw, formData.first_name, formData.last_name],
     );
+    res.redirect("/")
   } catch (error) {
     next(error);
   }

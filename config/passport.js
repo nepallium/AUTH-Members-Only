@@ -1,6 +1,6 @@
 import pool from "../db/pool.js";
 import passport from "passport";
-import LocalStrategy from "passport-local/Strategy";
+import {Strategy as LocalStrategy} from "passport-local"
 import bcrypt from "bcrypt";
 
 const customFields = {
