@@ -16,3 +16,10 @@ export async function isEmailTaken(value) {
         return false;
     }
 }
+
+export async function createMessage(formData) {
+    await pool.query(`
+        INSERT INTO messages (author_id, title, content)
+        VALUES ($1, $2, $3)
+        `, [formData.author_id, formData.title, formData.content])
+}
