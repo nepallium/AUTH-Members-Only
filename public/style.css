@@ -1,0 +1,15 @@
+a, a:visited, a:hover, a:active {
+  /* text-decoration: none; */
+  color: inherit;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+
+    .buttons {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+    }
+}

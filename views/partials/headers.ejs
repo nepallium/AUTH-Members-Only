@@ -1,0 +1,17 @@
+<header class="header">
+    <a href="/"><h1>Members Only</h1></a>
+    <div class="buttons">
+        <% if (locals.currentUser) { %>
+        <form action="/logout" method="post">
+            <button type="submit">Log out</button>
+        </form>
+        <% } else { %>
+        <form action="/signup" method="get">
+            <button type="submit">Sign up</button>
+        </form>
+        <form action="/login" method="get">
+            <button type="submit">Log in</button>
+        </form>
+        <% } %>
+    </div>
+</header>
