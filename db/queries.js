@@ -23,3 +23,8 @@ export async function createMessage(formData) {
         VALUES ($1, $2, $3)
         `, [formData.author_id, formData.title, formData.content])
 }
+
+export async function getAllMessages() {
+    const {rows} = await pool.query("SELECT * FROM messages")
+    return rows
+}

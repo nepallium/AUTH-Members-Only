@@ -42,6 +42,15 @@
       </dialog>
       <% } %>
     </div>
+
+    <div class="messagesContainer">
+      <% locals.messages.forEach(msg => { %>
+       <div class="messageBox">
+        <p class="title"><%= msg.title %></p>
+        <p class="content"><%= msg.content %></p>
+       </div>
+      <% }) %>
+    </div>
   </main>
 </body>
 
