@@ -4,6 +4,7 @@ import path from "path";
 import pool from "./db/pool.js";
 
 import session from "express-session";
+import flash from "connect-flash"
 import passport from "passport";
 import "./config/passport.js"; // need to import passport config so app.js knows abt it
 import pgSimple from "connect-pg-simple";
@@ -31,10 +32,17 @@ app.use(
     cookie: { maxAge: 24 * 60 * 60 * 1000 }, // 1 day
   }),
 );
+app.use(flash()) // for req.flash()
 
 // ### passport authentication
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use((req, res, next) => {
+    console.log(req.session);
+    console.log(req.user);
+    next();
+});
 
 // routes
 app.use(authRouter)

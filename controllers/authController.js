@@ -56,7 +56,8 @@ export async function showSignup(req, res) {
 }
 
 export async function showLogin(req, res) {
-  res.render("login");
+  const errors = req.flash("error").map(msg => ({msg}))
+  res.render("login", {errors});
 }
 
 export async function logoutUser(req, res) {

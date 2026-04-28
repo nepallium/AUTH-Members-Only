@@ -9,9 +9,9 @@ const router = Router();
 router.post(
   "/login",
   passport.authenticate("local", {
-    failureRedirect: "/",
+    failureRedirect: "/login",
     failureFlash: true,
-    successRedirect: "",
+    successRedirect: "/",
   }),
 );
 
