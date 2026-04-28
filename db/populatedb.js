@@ -15,7 +15,7 @@ const createSQLTables = `
   CREATE TABLE IF NOT EXISTS messages (
     message_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     title TEXT NOT NULL,
-    author_id UUID REFERENCES users(user_id) ON DELETE CASCADE,
+    author_id UUID NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
     content TEXT NOT NULL,
     created_at TIMESTAMPTZ DEFAULT NOW()
   );
