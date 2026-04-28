@@ -6,7 +6,6 @@ import pool from "./db/pool.js";
 import session from "express-session";
 import flash from "connect-flash"
 import passport from "passport";
-import "./config/passport.js"; // need to import passport config so app.js knows abt it
 import pgSimple from "connect-pg-simple";
 const pgSession = pgSimple(session);
 
@@ -35,6 +34,8 @@ app.use(
 app.use(flash()) // for req.flash()
 
 // ### passport authentication
+import "./config/passport.js"; // need to import passport config so app.js knows abt it
+
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -42,6 +43,11 @@ app.use((req, res, next) => {
     console.log(req.session);
     console.log(req.user);
     next();
+});
+
+app.use((req, res, next) => {
+  res.locals.currentUser = req.user;
+  next();
 });
 
 // routes

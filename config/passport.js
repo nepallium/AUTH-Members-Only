@@ -26,6 +26,8 @@ const verifyCallback = async (username, password, done) => {
       // password dont match
       return done(null, false, { message: "Incorrect password" });
     }
+
+    return done(null, user);
   } catch (err) {
     return done(err);
   }
@@ -36,7 +38,7 @@ const strategy = new LocalStrategy(customFields, verifyCallback);
 passport.use(strategy);
 
 passport.serializeUser((user, done) => {
-  done(null, user.id);
+  done(null, user.user_id);
 });
 
 passport.deserializeUser(async (userId, done) => {
