@@ -8,15 +8,16 @@
 
 <body>
   <h1>Sign Up</h1>
+  <%- include('partials/errors.ejs') %>
   <form action="/signup" method="POST">
     <label for="first_name">First Name</label>
-    <input type="text" name="first_name" id="first_name">
+    <input type="text" name="first_name" id="first_name" required>
     <label for="last_name">Last Name</label>
-    <input type="text" name="last_name" id="last_name">
+    <input type="text" name="last_name" id="last_name" required>
     <label for="email">Email</label>
-    <input id="email" name="email" placeholder="email" type="text" />
+    <input id="email" name="email" type="text"  required/>
     <label for="password">Password</label>
-    <input id="password" name="password" type="password" />
+    <input id="password" name="password" type="password"  required/>
     <button type="submit">Sign Up</button>
   </form>
 </body>

@@ -1,26 +1,55 @@
 import bcrypt from "bcrypt";
 import crypto from "node:crypto";
-import pool from "../db/pool.js"
+import {body, validationResult, matchedData} from "express-validator"
+import * as db from "../db/queries.js"
 
-// TODO validate user form
+const alphaErr = "must only contain letters."
+const lengthErr = "must be between 1 and 16 characters"
 
-export async function createUser(req, res, next) {
-  try {
-    const formData = req.body;
-    const hashedPw = await bcrypt.hash(formData.password, 10);
-    console.log(hashedPw)
-    await pool.query(
-      `
-      INSERT INTO users (email, password, first_name, last_name)
-      VALUES ($1, $2, $3, $4)
-      `,
-      [formData.email, hashedPw, formData.first_name, formData.last_name],
-    );
-    res.redirect("/")
-  } catch (error) {
-    next(error);
-  }
-}
+const validateUser = [
+  body("first_name")
+    .trim()
+    .isAlpha()
+    .withMessage(`First name ${alphaErr}`)
+    .isLength({min: 1, max: 16})
+    .withMessage(`First name ${lengthErr}`),
+  body("last_name")
+    .trim()
+    .isAlpha()
+    .withMessage(`Last name ${alphaErr}`)
+    .isLength({min: 1, max: 16})
+    .withMessage(`Last name ${lengthErr}`),
+  body("email")
+    .trim()
+    .isEmail()
+    .withMessage("Email must be valid")
+    .custom(db.isEmailTaken)
+    .withMessage("A user already exists with this email address"),
+  body("password")
+    .isLength({min: 3})
+    .withMessage("Password must have more than 2 characters")
+    .matches(/[!@#$%^&*(),.?":{}|<>]/)
+    .withMessage('Password must contain at least one special character.')
+]
+
+export const createUser = [
+  validateUser, 
+  async (req, res, next) => {
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+      return res.status(400).render("signup", {errors: errors.array(), prevUser: req.body})
+    }
+
+    try {
+      const formData = matchedData(req);
+      const hashedPw = await bcrypt.hash(formData.password, 10);
+      formData.password = hashedPw;
+      await db.createUser(formData)
+      res.redirect("/")
+    } catch (error) {
+      next(error);
+    }
+}]
 
 export async function showSignup(req, res) {
   res.render("signup");

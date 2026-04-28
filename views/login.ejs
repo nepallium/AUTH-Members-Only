@@ -9,10 +9,11 @@
 <body>
   <h1>Log In</h1>
   <form action="/login" method="POST">
+    <%- include('partials/errors.ejs') %>
     <label for="email">Email</label>
-    <input id="email" name="email" placeholder="email" type="text" />
+    <input id="email" name="email" type="text" required/>
     <label for="password">Password</label>
-    <input id="password" name="password" type="password" />
+    <input id="password" name="password" type="password" required/>
     <button type="submit">Log In</button>
   </form>
 </body>
