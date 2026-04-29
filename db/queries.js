@@ -1,10 +1,11 @@
 import pool from "./pool.js";
 
 export async function createUser(formData) {
-  await pool.query(
+  const { rows } = await pool.query(
     `
         INSERT INTO users (email, password, first_name, last_name)
         VALUES ($1, $2, $3, $4)
+        RETURNING *
         `,
     [
       formData.email,
@@ -13,14 +14,16 @@ export async function createUser(formData) {
       formData.last_name,
     ],
   );
+
+  return rows[0];
 }
 
-export async function isEmailTaken(value) {
-  const existingUser = pool.query("SELECT * FROM users WHERE email = $1", [
+export async function isEmailAvailable(value) {
+  const { rows } = await pool.query("SELECT * FROM users WHERE email = $1", [
     value,
   ]);
-  if (existingUser) {
-    return false;
+  if (rows.length !== 0) {
+    throw Error;
   }
 }
 

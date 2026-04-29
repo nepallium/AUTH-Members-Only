@@ -24,7 +24,7 @@ const validateUser = [
     .trim()
     .isEmail()
     .withMessage("Email must be valid")
-    .custom(db.isEmailTaken)
+    .custom(db.isEmailAvailable)
     .withMessage("A user already exists with this email address"),
   body("password")
     .isLength({ min: 3 })
@@ -47,9 +47,25 @@ export const createUser = [
       const formData = matchedData(req);
       const hashedPw = await bcrypt.hash(formData.password, 10);
       formData.password = hashedPw;
-      await db.createUser(formData);
-      res.redirect("/");
+
+      // db returns new user obj
+      const newUser = await db.createUser(formData);
+      // manually log user in
+      req.login(newUser, (err) => {
+        if (err) {
+          return next(err);
+        }
+
+        res.redirect("/");
+      });
     } catch (error) {
+      // if (error.code === "23505") {
+      //   return res.status(400).render("signup", {
+      //     errors: [{ msg: "A user already exists with this email address" }],
+      //     prevUser: req.body,
+      //   });
+      // }
+
       next(error);
     }
   },
