@@ -12,7 +12,7 @@
   <main>
     <%- include('partials/headers.ejs') %>
 
-    <div>
+    <div class="options">
       <% if (currentUser && !currentUser?.is_member) { %>
       <button onclick="">Join the club!</button>
       <% } %>
@@ -31,7 +31,6 @@
           <div class="form-group">
             <label for="content">Message</label>
             <textarea id="content" name="content" required></textarea>
-            <input type="hidden" name="author_id" value="<%= currentUser.user_id %>">
           </div>
 
           <div class="actions">
