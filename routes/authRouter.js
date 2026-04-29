@@ -6,14 +6,7 @@ import * as controller from "../controllers/authController.js";
 const router = Router();
 
 // post
-router.post(
-  "/login",
-  passport.authenticate("local", {
-    successRedirect: "/",
-    failureRedirect: "/login",
-    failureFlash: true,
-  }),
-);
+router.post("/login", controller.loginUser);
 
 router.post("/signup", controller.createUser);
 router.post("/logout", controller.logoutUser);

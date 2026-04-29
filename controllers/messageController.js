@@ -29,3 +29,12 @@ export async function createMessage(req, res, next) {
     next(err);
   }
 }
+
+export async function deleteMessage(req, res, next) {
+  try {
+    await db.deleteMessage(req.params.message_id);
+    res.redirect("/");
+  } catch (error) {
+    next(error);
+  }
+}

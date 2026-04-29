@@ -47,6 +47,10 @@ export async function getAllMessages() {
   return rows;
 }
 
+export async function deleteMessage(id) {
+  await pool.query(`DELETE FROM messages WHERE message_id = $1`, [id]);
+}
+
 // === MEMBER
 export async function changeMemberStatusPositive(user_id) {
   await pool.query(
