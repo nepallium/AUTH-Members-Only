@@ -13,8 +13,10 @@
     <%- include('partials/headers.ejs') %>
 
     <div class="options">
-      <% if (currentUser && !currentUser?.is_member) { %>
-      <button onclick="">Join the club!</button>
+      <% if (currentUser && currentUser.is_member) { %>
+      Welcome club member!
+      <% } else if (currentUser && !currentUser.is_member) { %>
+      <a href="/member/join"><button>Join the club!</button></a>
       <% } %>
 
       <% if (currentUser) { %>

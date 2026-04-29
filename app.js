@@ -11,6 +11,7 @@ const pgSession = pgSimple(session);
 
 import authRouter from "./routes/authRouter.js";
 import msgRouter from "./routes/messageRouter.js";
+import memberRouter from "./routes/memberRouter.js";
 
 // ### general setup
 const app = express();
@@ -56,6 +57,7 @@ app.use((req, res, next) => {
 // routes
 app.use(authRouter);
 app.use(msgRouter);
+app.use("/member", memberRouter);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, (error) => {

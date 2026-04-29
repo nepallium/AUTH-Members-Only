@@ -24,6 +24,7 @@ export async function isEmailTaken(value) {
   }
 }
 
+// === MESSAGES
 export async function createMessage(formData) {
   await pool.query(
     `
@@ -44,4 +45,16 @@ export async function getAllMessages() {
         ORDER BY m.created_at DESC
     `);
   return rows;
+}
+
+// === MEMBER
+export async function changeMemberStatusPositive(user_id) {
+  await pool.query(
+    `
+        UPDATE users
+        SET is_member = TRUE
+        WHERE user_id = $1
+        `,
+    [user_id],
+  );
 }

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Members Only</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <%- include('partials/headers') %>
+
+  <h2>Join the club</h2>
+  <h4>What has keys but can't open locks?</h4>
+  <%- include('partials/errors') %>
+  <form action="/member/join" method="post">
+    <input type="text" name="code" id="code">
+    <button type="submit">JOIN</button>
+  </form>
+</body>
+
+</html>
